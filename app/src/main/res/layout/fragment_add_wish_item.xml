@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.WishItemFragment">
+    tools:context=".Fragments.AddWishItemFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <ImageView
-        android:id="@+id/itemFragmentImage"
+        android:id="@+id/addItemFragmentImage"
         android:layout_width="0dp"
         android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,13 +24,12 @@
         android:layout_marginTop="8dp"
         android:text="name:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemFragmentImage" />
+        app:layout_constraintTop_toBottomOf="@+id/addItemFragmentImage" />
 
-    <TextView
-        android:id="@+id/itemFragmentName"
+    <EditText
+        android:id="@+id/addItemFragmentName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="false"
         android:editable="false"
@@ -48,14 +46,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="price:"
-        app:layout_constraintStart_toStartOf="@+id/itemFragmentName"
-        app:layout_constraintTop_toBottomOf="@+id/itemFragmentName" />
+        app:layout_constraintStart_toStartOf="@+id/addItemFragmentName"
+        app:layout_constraintTop_toBottomOf="@+id/addItemFragmentName" />
 
-    <TextView
-        android:id="@+id/itemFragmentPrice"
+    <EditText
+        android:id="@+id/addItemFragmentPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="false"
         android:editable="false"
@@ -72,14 +69,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="description:"
-        app:layout_constraintStart_toStartOf="@+id/itemFragmentName"
-        app:layout_constraintTop_toBottomOf="@+id/itemFragmentPrice" />
+        app:layout_constraintStart_toStartOf="@+id/addItemFragmentName"
+        app:layout_constraintTop_toBottomOf="@+id/addItemFragmentPrice" />
 
-    <TextView
-        android:id="@+id/itemFragmentDescription"
+    <EditText
+        android:id="@+id/addItemFragmentDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="false"
         android:editable="false"
@@ -96,14 +92,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="store: "
-        app:layout_constraintStart_toStartOf="@+id/itemFragmentName"
-        app:layout_constraintTop_toBottomOf="@+id/itemFragmentDescription" />
+        app:layout_constraintStart_toStartOf="@+id/addItemFragmentName"
+        app:layout_constraintTop_toBottomOf="@+id/addItemFragmentDescription" />
 
-    <TextView
-        android:id="@+id/itemFragmentStore"
+    <EditText
+        android:id="@+id/addItemFragmentStore"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="false"
         android:editable="false"
@@ -120,14 +115,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="link:"
-        app:layout_constraintStart_toStartOf="@+id/itemFragmentName"
-        app:layout_constraintTop_toBottomOf="@+id/itemFragmentStore" />
+        app:layout_constraintStart_toStartOf="@+id/addItemFragmentName"
+        app:layout_constraintTop_toBottomOf="@+id/addItemFragmentStore" />
 
-    <TextView
-        android:id="@+id/itemFragmentLink"
+    <EditText
+        android:id="@+id/addItemFragmentLink"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="false"
         android:editable="false"
@@ -139,25 +133,13 @@
         app:layout_constraintTop_toBottomOf="@+id/_link" />
 
     <Button
-        android:id="@+id/itemFragmentMarkBoughtButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="mark bought"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemFragmentLink"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/itemFragmentEditButton"
+        android:id="@+id/itemFragmentAddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="edit"
-        app:layout_constraintBottom_toBottomOf="@+id/itemFragmentMarkBoughtButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/itemFragmentMarkBoughtButton" />
+        android:layout_marginBottom="8dp"
+        android:text="add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.hotelki.wishlist
+package com.hotelki.wishlist.Repository
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -24,7 +24,7 @@ interface WishItemDao{
     @Query("delete from wish_item_table")
     suspend fun deleteAll()
 
-    @Query("update wish_item_table set item_image=:newImageURI where id=:id")
-    suspend fun changeImage(id:Int,newImageURI:String)
+    @Query("update wish_item_table set item_image=:newImageURI, item_image_date_changed=:newImageDate where id=:id")
+    suspend fun changeImage(id:Int,newImageURI:String,newImageDate:Long=System.currentTimeMillis())
 
 }

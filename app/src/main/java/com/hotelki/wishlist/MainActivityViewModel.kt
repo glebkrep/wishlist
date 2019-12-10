@@ -13,8 +13,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.hotelki.wishlist.Repository.WishItem
+import com.hotelki.wishlist.Repository.WishItemRepository
+import com.hotelki.wishlist.Repository.WishItemRoomDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -22,7 +24,7 @@ import java.io.FileOutputStream
 import java.lang.ref.WeakReference
 
 class MainActivityViewModel(application:Application):AndroidViewModel(application) {
-    private val repository:WishItemRepository
+    private val repository: WishItemRepository
     val allWishItems:LiveData<List<WishItem>>
 
     init {
@@ -39,7 +41,7 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
         repository.deleteById(id)
     }
 
-    fun update(newWishItem:WishItem) = viewModelScope.launch {
+    fun update(newWishItem: WishItem) = viewModelScope.launch {
         repository.update(newWishItem.id,newWishItem.name,newWishItem.description,newWishItem.store,newWishItem.link,newWishItem.price)
     }
 
@@ -51,7 +53,7 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
         withContext(Dispatchers.IO){
 
             val uri = uri
-            val requestOptions = RequestOptions().override(100)
+            val requestOptions = RequestOptions().override(400)
                 .downsample(DownsampleStrategy.CENTER_INSIDE)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -71,12 +73,14 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
                     }
                     file = File(file, "img$wishItemId.jpg")
                     val out = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, out)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out)
                     out.flush()
                     out.close()
                     val newUri = file.toUri()
                     changeImage(wishItemId,newImageURI = newUri.toString())
-                    Log.i("MainActivityViewModel", "Image saved.")
+
+
+                    Log.i("MainActivityViewModel", "Image saved., old uri ${uri.toString()}, new uri ${newUri.toString()}")
                 } catch (e: Exception) {
                     Log.i("MainActivityViewModel", "Failed to save image.")
                 }
@@ -84,6 +88,8 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
         }
 
     }
+
+
 
 
 

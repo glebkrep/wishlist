@@ -1,4 +1,4 @@
-package com.hotelki.wishlist
+package com.hotelki.wishlist.Fragments
 
 import android.app.Activity
 import android.content.Context
@@ -14,15 +14,19 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.hotelki.wishlist.MainActivity
+import com.hotelki.wishlist.MainActivityViewModel
+import com.hotelki.wishlist.R
+import com.hotelki.wishlist.Repository.WishItem
+import com.hotelki.wishlist.Utils.MyGlideUtils
+import com.hotelki.wishlist.Utils.MyUtils
 import kotlinx.android.synthetic.main.fragment_edit_wish_item.*
 import java.lang.ref.WeakReference
-import java.security.Permissions
-import java.util.jar.Manifest
 
 
 class EditWishItemFragment : Fragment() {
     lateinit var wishItem: WishItem
-    lateinit var viewModel:MainActivityViewModel
+    lateinit var viewModel: MainActivityViewModel
     lateinit var imageView:ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,42 +45,21 @@ class EditWishItemFragment : Fragment() {
         wishItem = arguments!!["wishItem"] as WishItem
 
         imageView = itemFragmentImage
-        itemFragmentNameEdit.setText(wishItem.name)
-        //TODO: set image
-        if (!wishItem.imageResId.isNullOrEmpty()){
-            imageView.setImageURI(Uri.parse(wishItem.imageResId))
-        }
-        if(wishItem.description.isNullOrEmpty()){
 
-        }
-        else{
-            itemFragmentDescriptionEdit.setText(wishItem.description)
-        }
-        if (wishItem.store.isNullOrEmpty()){
+        //Load image
+        MyGlideUtils.displayImage(this,Uri.parse(wishItem.imageResId),wishItem.image_changed_date,itemFragmentImage)
+        //Fill all the views
+        MyUtils.fillViews(wishItem,itemFragmentNameEdit,itemFragmentPriceEdit,itemFragmentDescriptionEdit,itemFragmentStoreEdit,itemFragmentLinkEdit,true)
 
-        }
-        else{
-            itemFragmentStoreEdit.setText(wishItem.store)
-        }
-        if (wishItem.link.isNullOrEmpty()){
 
-        }
-        else{
-            itemFragmentLinkEdit.setText(wishItem.store)
-        }
-        if (wishItem.price.isNaN()){
-
-        }
-        else{
-            //TODO: multilingual currancy
-            itemFragmentPriceEdit.setText(wishItem.price.toString()+" $")
-        }
 
         imageView.setOnClickListener {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 if (context!!.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_DENIED){
                     val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                    requestPermissions(permissions, PERMISSION_CODE)
+                    requestPermissions(permissions,
+                        PERMISSION_CODE
+                    )
                 }
                 else{
                     //permission already granted
@@ -105,9 +88,11 @@ class EditWishItemFragment : Fragment() {
 
     }
     fun pickImageFromGallery(){
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
-        startActivityForResult(intent, IMAGE_PICK_CODE)
+        startActivityForResult(intent,
+            IMAGE_PICK_CODE
+        )
     }
 
 
@@ -131,16 +116,11 @@ class EditWishItemFragment : Fragment() {
     //handle result of picked image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
-
-            //TODO: save image to internalStorage and return new uri
-
             val wr:WeakReference<Context> = WeakReference(context!!.applicationContext)
-
             viewModel.copyImageToInternalStorage(data?.data,wr,wishItem.id)
 
-
-            //imageView.setImageURI(data?.data)
-            //viewModel.changeImage(wishItem.id,data?.data.toString())
+            //TODO: show image
+            imageView.setImageURI(data?.data)
 
         }
     }

@@ -1,7 +1,6 @@
 package com.hotelki.wishlist
 
 import android.content.Context
-import android.graphics.Canvas
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,8 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.hotelki.wishlist.Repository.WishItem
+import com.hotelki.wishlist.Utils.MyGlideUtils
 
 class WishListAdapter internal constructor(val context: Context?,val parentFragment: Fragment) : RecyclerView.Adapter<WishListAdapter.WishListViewHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -33,21 +33,24 @@ class WishListAdapter internal constructor(val context: Context?,val parentFragm
     override fun onBindViewHolder(holder: WishListViewHolder, position: Int) {
         val current = wishList[position]
 
-        if (current.imageResId.isNullOrBlank()){
-            holder.wishItemImageView.setImageResource(R.drawable.ic_launcher_foreground)
+        if (current.imageResId.isNullOrEmpty()){
+            holder.wishItemImageView.visibility = View.GONE
+
         }
         else{
-            //TODO: display image
-
-            holder.wishItemImageView.setImageURI((Uri.parse(current.imageResId)))
+            val uri = Uri.parse(current.imageResId)
+            MyGlideUtils.displayImage(parentFragment,uri,current.image_changed_date,holder.wishItemImageView)
         }
+
+
+
 
         holder.wishItemNameTextView.text = current.name
         //TODO: multilangual currency
         holder.wishItemPriceTextView.text = current.price.toString()+" $"
 
         if (current.description.isNullOrEmpty()){
-            holder.wishItemDescriptionTextView.visibility = View.GONE
+            holder.wishItemDescriptionTextView.text = " "
         }
         else{
             holder.wishItemDescriptionTextView.text = current.description
@@ -58,6 +61,9 @@ class WishListAdapter internal constructor(val context: Context?,val parentFragm
             argumentsBundle.putParcelable("wishItem",current)
             findNavController(parentFragment).navigate(R.id.action_wishListFragment_to_wishItemFragment,argumentsBundle)
         }
+
+
+
     }
 
     internal fun setWishList(wishList:List<WishItem>){

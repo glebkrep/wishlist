@@ -1,4 +1,4 @@
-package com.hotelki.wishlist
+package com.hotelki.wishlist.Repository
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -39,5 +39,8 @@ data class WishItem(
     var isArchived:Boolean = false,
 
     @ColumnInfo(name = "item_date_archived")
-    var date_archived: Long = 0L
+    var date_archived: Long = 0L,
+
+    @ColumnInfo(name = "item_image_date_changed")
+    var image_changed_date:Long = 0L
 ):Parcelable

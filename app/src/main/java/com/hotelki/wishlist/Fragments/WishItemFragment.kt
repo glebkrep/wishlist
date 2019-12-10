@@ -1,4 +1,4 @@
-package com.hotelki.wishlist
+package com.hotelki.wishlist.Fragments
 
 
 import android.net.Uri
@@ -8,48 +8,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.hotelki.wishlist.R
+import com.hotelki.wishlist.Repository.WishItem
+import com.hotelki.wishlist.Utils.MyGlideUtils
+import com.hotelki.wishlist.Utils.MyUtils
 import kotlinx.android.synthetic.main.fragment_wish_item.*
+import kotlinx.android.synthetic.main.wish_list_item_view.*
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class WishItemFragment : Fragment() {
-    lateinit var wishItem:WishItem
+    lateinit var wishItem: WishItem
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         wishItem = arguments!!["wishItem"] as WishItem
 
 
         itemFragmentName.text = wishItem.name
-        //TODO: set image
-        if (!wishItem.imageResId.isNullOrEmpty()){
-            itemFragmentImage.setImageURI(Uri.parse(wishItem.imageResId))
-        }
-        if(wishItem.description.isNullOrEmpty()){
-            _description.visibility = View.INVISIBLE
-        }
-        else{
-            itemFragmentDescription.text = wishItem.description
-        }
-        if (wishItem.store.isNullOrEmpty()){
-            _store.visibility = View.INVISIBLE
-        }
-        else{
-            itemFragmentStore.text = wishItem.store
-        }
-        if (wishItem.link.isNullOrEmpty()){
-            _link.visibility = View.INVISIBLE
-        }
-        else{
-            itemFragmentLink.text = wishItem.store
-        }
-        if (wishItem.price.isNaN()){
-            _price.visibility = View.INVISIBLE
-        }
-        else{
-            //TODO: multilingual currancy
-            itemFragmentPrice.text = wishItem.price.toString()+" $"
-        }
+
+
+        MyGlideUtils.displayImage(this,Uri.parse(wishItem.imageResId),wishItem.image_changed_date,itemFragmentImage)
+
+        MyUtils.fillViews(wishItem,itemFragmentName,itemFragmentPrice,itemFragmentDescription,itemFragmentStore,itemFragmentLink,false)
+
 
 
         itemFragmentEditButton.setOnClickListener {

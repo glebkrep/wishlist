@@ -1,29 +1,23 @@
-package com.hotelki.wishlist
+package com.hotelki.wishlist.Fragments
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.hotelki.wishlist.MainActivity
+import com.hotelki.wishlist.MainActivityViewModel
+import com.hotelki.wishlist.R
+import com.hotelki.wishlist.WishListAdapter
 import kotlinx.android.synthetic.main.fragment_wish_list.*
 
 class WishListFragment : Fragment() {
-    lateinit var viewModel:MainActivityViewModel
+    lateinit var viewModel: MainActivityViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
-//        this.findNavController().navigate(R.id.action_wishListFragment_to_wishItemFragment)
-
     }
 
 
@@ -41,15 +35,17 @@ class WishListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = WishListAdapter(context,this)
+        val adapter = WishListAdapter(context, this)
 
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-//
-//        viewModel.insert(WishItem(name = "hay wassup",price = 123.0,description = "dada,da"))
 
+        floatingActionButton.setOnClickListener {
+            NavHostFragment.findNavController(this)
+                .navigate(R.id.action_wishListFragment_to_addWishItemFragment)
+        }
 
         //TODO:question mark
         viewModel.allWishItems.observe(this, Observer {wishItems->

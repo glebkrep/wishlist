@@ -1,4 +1,4 @@
-package com.hotelki.wishlist
+package com.hotelki.wishlist.Repository
 
 import androidx.lifecycle.LiveData
 
@@ -6,7 +6,7 @@ class WishItemRepository(private val wishItemDao: WishItemDao){
 
     val allWishItems:LiveData<List<WishItem>> = wishItemDao.getAllWishesDesc()
 
-    suspend fun insert(wishItem:WishItem){
+    suspend fun insert(wishItem: WishItem){
         wishItemDao.insert(wishItem)
     }
 
@@ -21,4 +21,5 @@ class WishItemRepository(private val wishItemDao: WishItemDao){
     suspend fun changeImage(id:Int,imageURI:String){
         wishItemDao.changeImage(id,imageURI)
     }
+
 }
