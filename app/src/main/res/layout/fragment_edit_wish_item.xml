@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditWishItemFragment">
+
+
+    <ImageView
+        android:id="@+id/itemFragmentImage"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="name:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemFragmentImage" />
+
+    <EditText
+        android:id="@+id/itemFragmentNameEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:clickable="false"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/_name"
+        app:layout_constraintTop_toBottomOf="@+id/_name" />
+
+    <TextView
+        android:id="@+id/_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="price:"
+        app:layout_constraintStart_toStartOf="@+id/itemFragmentNameEdit"
+        app:layout_constraintTop_toBottomOf="@+id/itemFragmentNameEdit" />
+
+    <EditText
+        android:id="@+id/itemFragmentPriceEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:clickable="false"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/_name"
+        app:layout_constraintTop_toBottomOf="@+id/_price" />
+
+    <TextView
+        android:id="@+id/_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="description:"
+        app:layout_constraintStart_toStartOf="@+id/itemFragmentNameEdit"
+        app:layout_constraintTop_toBottomOf="@+id/itemFragmentPriceEdit" />
+
+    <EditText
+        android:id="@+id/itemFragmentDescriptionEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:clickable="false"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/_name"
+        app:layout_constraintTop_toBottomOf="@+id/_description" />
+
+    <TextView
+        android:id="@+id/_store"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="store: "
+        app:layout_constraintStart_toStartOf="@+id/itemFragmentNameEdit"
+        app:layout_constraintTop_toBottomOf="@+id/itemFragmentDescriptionEdit" />
+
+    <EditText
+        android:id="@+id/itemFragmentStoreEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:clickable="false"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/_name"
+        app:layout_constraintTop_toBottomOf="@+id/_store" />
+
+    <TextView
+        android:id="@+id/_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="link:"
+        app:layout_constraintStart_toStartOf="@+id/itemFragmentNameEdit"
+        app:layout_constraintTop_toBottomOf="@+id/itemFragmentStoreEdit" />
+
+    <EditText
+        android:id="@+id/itemFragmentLinkEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:clickable="false"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/_name"
+        app:layout_constraintTop_toBottomOf="@+id/_link" />
+
+    <Button
+        android:id="@+id/itemFragmentMarkBoughtButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="mark bought"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemFragmentLink"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/itemFragmentSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="save"
+        app:layout_constraintBottom_toBottomOf="@+id/itemFragmentMarkBoughtButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemFragmentMarkBoughtButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

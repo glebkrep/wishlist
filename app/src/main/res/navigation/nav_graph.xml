@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/wishListFragment">
+
+    <fragment
+        android:id="@+id/wishListFragment"
+        android:name="com.hotelki.wishlist.WishListFragment"
+        android:label="fragment_wish_list"
+        tools:layout="@layout/fragment_wish_list" >
+        <action
+            android:id="@+id/action_wishListFragment_to_wishItemFragment"
+            app:destination="@id/wishItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishItemFragment"
+        android:name="com.hotelki.wishlist.WishItemFragment"
+        android:label="fragment_wish_item"
+        tools:layout="@layout/fragment_wish_item" >
+        <argument
+            android:name="wishItem"
+            app:argType="com.hotelki.wishlist.WishItem" />
+        <action
+            android:id="@+id/action_wishItemFragment_to_editWishItemFragment"
+            app:destination="@id/editWishItemFragment"
+            app:popUpTo="@+id/wishListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editWishItemFragment"
+        android:name="com.hotelki.wishlist.EditWishItemFragment"
+        android:label="fragment_edit_wish_item"
+        tools:layout="@layout/fragment_edit_wish_item" >
+        <argument
+            android:name="wishItem"
+            app:argType="com.hotelki.wishlist.WishItem" />
+        <action
+            android:id="@+id/action_editWishItemFragment_to_wishListFragment"
+            app:destination="@id/wishListFragment"
+            app:popUpTo="@+id/wishListFragment" />
+    </fragment>
+</navigation>
