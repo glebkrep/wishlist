@@ -38,6 +38,7 @@ class WishListAdapter internal constructor(val context: Context?,val parentFragm
 
         }
         else{
+            holder.wishItemImageView.visibility = View.VISIBLE
             val uri = Uri.parse(current.imageResId)
             MyGlideUtils.displayImage(parentFragment,uri,current.image_changed_date,holder.wishItemImageView)
         }

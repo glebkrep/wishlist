@@ -26,7 +26,9 @@ class WishItemFragment : Fragment() {
         itemFragmentName.text = wishItem.name
 
 
-        MyGlideUtils.displayImage(this,Uri.parse(wishItem.imageResId),wishItem.image_changed_date,itemFragmentImage)
+
+
+        MyGlideUtils.displayImage(this,wishItem?.imageResId,wishItem.image_changed_date,itemFragmentImage)
 
         MyUtils.fillViews(wishItem,itemFragmentName,itemFragmentPrice,itemFragmentDescription,itemFragmentStore,itemFragmentLink,false)
 

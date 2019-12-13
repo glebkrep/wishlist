@@ -47,7 +47,7 @@ class EditWishItemFragment : Fragment() {
         imageView = itemFragmentImage
 
         //Load image
-        MyGlideUtils.displayImage(this,Uri.parse(wishItem.imageResId),wishItem.image_changed_date,itemFragmentImage)
+        MyGlideUtils.displayImage(this,wishItem.imageResId,wishItem.image_changed_date,itemFragmentImage)
         //Fill all the views
         MyUtils.fillViews(wishItem,itemFragmentNameEdit,itemFragmentPriceEdit,itemFragmentDescriptionEdit,itemFragmentStoreEdit,itemFragmentLinkEdit,true)
 
