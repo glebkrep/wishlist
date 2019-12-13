@@ -64,4 +64,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
+
+    //uCrop (light (for full version see https://github.com/Yalantis/uCrop)
+    implementation 'com.github.yalantis:ucrop:2.2.4'
 }

@@ -7,22 +7,26 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.hotelki.wishlist.MainActivity
 import com.hotelki.wishlist.MainActivityViewModel
 import com.hotelki.wishlist.R
 import com.hotelki.wishlist.Repository.WishItem
+import com.hotelki.wishlist.Utils.MyGlideUtils
+import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_add_wish_item.*
+import java.io.File
+import java.lang.ref.WeakReference
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class AddWishItemFragment : Fragment() {
     lateinit var viewModel: MainActivityViewModel
     lateinit var imageView: ImageView
@@ -66,7 +70,6 @@ class AddWishItemFragment : Fragment() {
             var link:String=""
             var price:Double =0.0
 
-
             if(!addItemFragmentName.text.isNullOrEmpty()) name = addItemFragmentName.text.toString()
             if(!addItemFragmentDescription.text.isNullOrEmpty()) description = addItemFragmentDescription.text.toString()
             if(!addItemFragmentStore.text.isNullOrEmpty()) store = addItemFragmentStore.text.toString()
@@ -103,6 +106,17 @@ class AddWishItemFragment : Fragment() {
             }
 
         }
+
+        //TODO: tempImageHasChanged
+        viewModel.tempImageUri.observe(this, Observer {
+
+            Log.i("AddWishItemFragment","observed the change")
+            it.let{
+                if(it!="")
+                openCropActivity(Uri.parse(it), Uri.parse(it))
+
+            }
+        })
 
 
     }
@@ -145,11 +159,45 @@ class AddWishItemFragment : Fragment() {
 
             imageUri = data!!.data!!.toString()
 
-            //TODO: change to glide
-            imageView.setImageURI(data?.data)
+            //TODO: uCrop testing
+
+            Log.i("AddWishItemFragment","openCropActivity call")
+            var name = System.currentTimeMillis().toString()
+            viewModel.copyTempImageToInternalStorage(Uri.parse(imageUri), WeakReference(context!!.applicationContext),name)
+
+
+            //TODO: changed to glide
+            //MyGlideUtils.displayImage(this,data?.data,0L,imageView)
+            //imageView.setImageURI(data?.data)
             //viewModel.changeImage(wishItem.id,data?.data.toString())
 
         }
+        //TODO: did drunk review!
+        else if (requestCode==UCrop.REQUEST_CROP && resultCode==Activity.RESULT_OK){
+            //MyGlideUtils.displayImage(this,UCrop.getOutput(data!!),0L,imageView)
+            Log.i("AddWishItemFragment","uri: ${UCrop.getOutput(data!!)}")
+            imageView.setImageURI(UCrop.getOutput(data!!))
+            imageUri = UCrop.getOutput(data!!).toString()
+        }
+        else if(requestCode==UCrop.REQUEST_CROP){
+            Log.i("AddWishItemFragment","resultCode not ok; ${data!!.data}")
+        }
+    }
+
+    fun openCropActivity(sourceUri:Uri,destinationUri:Uri){
+
+        Log.i("AddWishItemFragment","openCropActivity start")
+        //TODO: define width and height in resurce files and refernce them
+        var width = imageView.width
+        var height = imageView.height
+        var total = width+height
+        UCrop.of(sourceUri,destinationUri)
+            .withAspectRatio(width/total.toFloat(), height/total.toFloat())
+            .withMaxResultSize(1000,1000)
+            .start(this.context!!.applicationContext,this)
+
+        Log.i("AddWishItemFragment","UCrop call end")
+
     }
 
     companion object{

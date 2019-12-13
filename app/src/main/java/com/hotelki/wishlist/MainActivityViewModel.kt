@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -26,11 +27,15 @@ import java.lang.ref.WeakReference
 class MainActivityViewModel(application:Application):AndroidViewModel(application) {
     private val repository: WishItemRepository
     val allWishItems:LiveData<List<WishItem>>
-
+    val tempImageUri:MutableLiveData<String> by lazy{
+        MutableLiveData<String>()
+    }
     init {
         val wishItemDao = WishItemRoomDatabase.getDatabase(application,viewModelScope).wishItemDao()
         repository = WishItemRepository(wishItemDao)
         allWishItems = repository.allWishItems
+
+        tempImageUri.value = ""
     }
 
     fun insert(wishItem: WishItem)= viewModelScope.launch {
@@ -91,6 +96,42 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
 
 
 
+    fun copyTempImageToInternalStorage(uri:Uri,mContext:WeakReference<Context>,fileName:String) = viewModelScope.launch {
+        withContext(Dispatchers.IO){
+            val uri = uri
+            val requestOptions = RequestOptions().override(400)
+                .downsample(DownsampleStrategy.CENTER_INSIDE)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+
+            mContext.get()?.let {
+                val bitmap = Glide.with(it)
+                    .asBitmap()
+                    .load(uri)
+                    .apply(requestOptions)
+                    .submit()
+                    .get()
+                try {
+
+                    var file = File(it.filesDir, "TempImages")
+                    if (!file.exists()) {
+                        file.mkdir()
+                    }
+                    file = File(file, "$fileName.jpg")
+                    val out = FileOutputStream(file)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out)
+                    out.flush()
+                    out.close()
+
+                    tempImageUri.postValue(file.toURI().toString())
+                    Log.i("MainActivityViewModel", "Image saved)")
+                } catch (e: Exception) {
+                    Log.i("MainActivityViewModel", "Failed to save image. ")
+                    e.printStackTrace()
+                }
+        }
+    }
 
 
+}
 }

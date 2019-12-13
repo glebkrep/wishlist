@@ -19,6 +19,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        //For UCrop
+        maven { url "https://jitpack.io" }
         
     }
 }
