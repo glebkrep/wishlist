@@ -40,6 +40,7 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
 
     fun insert(wishItem: WishItem)= viewModelScope.launch {
         repository.insert(wishItem)
+        tempImageUri.value = ""
     }
 
     fun deleteById(id:Int) = viewModelScope.launch {
@@ -52,6 +53,7 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
 
     fun changeImage(id:Int,newImageURI:String) = viewModelScope.launch {
         repository.changeImage(id,newImageURI)
+        tempImageUri.value = ""
     }
 
     fun copyImageToInternalStorage(uri:Uri?,mContext:WeakReference<Context>,wishItemId:Int) = viewModelScope.launch{
@@ -99,7 +101,7 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
     fun copyTempImageToInternalStorage(uri:Uri,mContext:WeakReference<Context>,fileName:String) = viewModelScope.launch {
         withContext(Dispatchers.IO){
             val uri = uri
-            val requestOptions = RequestOptions().override(400)
+            val requestOptions = RequestOptions()
                 .downsample(DownsampleStrategy.CENTER_INSIDE)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -119,7 +121,7 @@ class MainActivityViewModel(application:Application):AndroidViewModel(applicatio
                     }
                     file = File(file, "$fileName.jpg")
                     val out = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
                     out.flush()
                     out.close()
 

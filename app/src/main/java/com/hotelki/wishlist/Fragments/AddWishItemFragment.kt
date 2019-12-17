@@ -36,7 +36,6 @@ class AddWishItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        //TODO: questionable as well
         viewModel = MainActivity.obtainViewModel(activity!!)
         return inflater.inflate(R.layout.fragment_add_wish_item, container, false)
     }
@@ -63,7 +62,6 @@ class AddWishItemFragment : Fragment() {
             }
         }
         itemFragmentAddButton.setOnClickListener {
-            //TODO: add image here
             var name:String = ""
             var description:String = ""
             var store:String=""
@@ -75,11 +73,7 @@ class AddWishItemFragment : Fragment() {
             if(!addItemFragmentStore.text.isNullOrEmpty()) store = addItemFragmentStore.text.toString()
             if(!addItemFragmentLink.text.isNullOrEmpty()) link = addItemFragmentLink.text.toString()
             if(!addItemFragmentPrice.text.isNullOrEmpty()) price = addItemFragmentPrice.text.toString().toDouble()
-
-            if (addItemFragmentName.text.isNullOrEmpty()){
-                //TODO:bad coding
-                Toast.makeText(context,"Enter name at least...",Toast.LENGTH_SHORT).show()
-            }
+            if (addItemFragmentName.text.isNullOrEmpty()) Toast.makeText(context,"Enter name at least...",Toast.LENGTH_SHORT).show()
             else{
                 var newWishItem:WishItem
                 if (imageUri==""){
@@ -109,12 +103,9 @@ class AddWishItemFragment : Fragment() {
 
         //TODO: tempImageHasChanged
         viewModel.tempImageUri.observe(this, Observer {
-
-            Log.i("AddWishItemFragment","observed the change")
             it.let{
                 if(it!="")
                 openCropActivity(Uri.parse(it), Uri.parse(it))
-
             }
         })
 
@@ -149,55 +140,24 @@ class AddWishItemFragment : Fragment() {
     //handle result of picked image
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE){
-
-            //TODO: save image to internalStorage and return new uri
-//
-//            val wr: WeakReference<Context> = WeakReference(context!!.applicationContext)
-//
-//            viewModel.copyImageToInternalStorage(data?.data,wr,wishItem.id)
-
-
             imageUri = data!!.data!!.toString()
-
-            //TODO: uCrop testing
-
-            Log.i("AddWishItemFragment","openCropActivity call")
             var name = System.currentTimeMillis().toString()
             viewModel.copyTempImageToInternalStorage(Uri.parse(imageUri), WeakReference(context!!.applicationContext),name)
-
-
-            //TODO: changed to glide
-            //MyGlideUtils.displayImage(this,data?.data,0L,imageView)
-            //imageView.setImageURI(data?.data)
-            //viewModel.changeImage(wishItem.id,data?.data.toString())
-
         }
-        //TODO: did drunk review!
         else if (requestCode==UCrop.REQUEST_CROP && resultCode==Activity.RESULT_OK){
-            //MyGlideUtils.displayImage(this,UCrop.getOutput(data!!),0L,imageView)
-            Log.i("AddWishItemFragment","uri: ${UCrop.getOutput(data!!)}")
-            imageView.setImageURI(UCrop.getOutput(data!!))
+            MyGlideUtils.displayImage(this,UCrop.getOutput(data!!),0L,imageView)
             imageUri = UCrop.getOutput(data!!).toString()
-        }
-        else if(requestCode==UCrop.REQUEST_CROP){
-            Log.i("AddWishItemFragment","resultCode not ok; ${data!!.data}")
         }
     }
 
     fun openCropActivity(sourceUri:Uri,destinationUri:Uri){
-
-        Log.i("AddWishItemFragment","openCropActivity start")
         //TODO: define width and height in resurce files and refernce them
         var width = imageView.width
         var height = imageView.height
         var total = width+height
         UCrop.of(sourceUri,destinationUri)
             .withAspectRatio(width/total.toFloat(), height/total.toFloat())
-            .withMaxResultSize(1000,1000)
             .start(this.context!!.applicationContext,this)
-
-        Log.i("AddWishItemFragment","UCrop call end")
-
     }
 
     companion object{
